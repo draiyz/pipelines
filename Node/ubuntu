@@ -1,0 +1,52 @@
+name: staging. CI
+
+on:
+  push:
+    branches: [ staging ]
+  pull_request:
+    branches: [ staging ]
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm install -g yarn
+    - run: yarn 
+    - run: yarn build
+#     - run: cp /home/ec2-user/actions-runner/.env /home/ec2-user/actions-runner/_work/auc-v-be-core-v2/auc-v-be-core-v2/dist/src/
+#     - run: cp -r /home/ec2-user/actions-runner/config /home/ec2-user/actions-runner/_work/auc-v-be-core-v2/auc-v-be-core-v2/dist/src/
+#     - run: cp /home/ec2-user/actions-runner/.env .
+    - run: npm install -g pm2
+#     - run: pm2 restart app
+    
+  
+    - name: multiple command
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+            cd /home/ec2-user/auc-v-be-core-v2
+            git checkout -f
+            git pull
+            cp /home/ec2-user/.env /home/ec2-user/auc-v-be-core-v2/dist/src/
+            cp -r /home/ec2-user/config /home/ec2-user/actions-runner/dist/src/
+            cp /home/ec2-user/.env .
+            pm2 restart app
