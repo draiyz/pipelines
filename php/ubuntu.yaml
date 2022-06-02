@@ -48,13 +48,13 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          script: |
-            cd /var/www/ems/backend/greenestate-ems-estate-admin
-            git checkout -f
-            git pull
-            php artisan cache:clear
-            php artisan config:clear
-            php artisan route:clear
-            mv .env.example .env
-            composer dump-autoload
-            php artisan key:generate
+#           script: |
+#             cd /var/www/ems/backend/greenestate-ems-estate-admin
+#             git checkout -f
+#             git pull
+#             php artisan cache:clear
+#             php artisan config:clear
+#             php artisan route:clear
+#             mv .env.example .env
+#             composer dump-autoload
+#             php artisan key:generate
