@@ -46,7 +46,7 @@ jobs:
             cd /home/ec2-user/auc-v-be-core-v2
             git checkout -f
             git pull
-            cp /home/ec2-user/.env /home/ec2-user/auc-v-be-core-v2/dist/src/
-            cp -r /home/ec2-user/config /home/ec2-user/actions-runner/dist/src/
-            cp /home/ec2-user/.env .
+       #     cp /home/ec2-user/.env /home/ec2-user/auc-v-be-core-v2/dist/src/
+       #     cp -r /home/ec2-user/config /home/ec2-user/actions-runner/dist/src/
+       #     cp /home/ec2-user/.env .
             pm2 restart app
